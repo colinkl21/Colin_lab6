@@ -11,8 +11,24 @@ library(dsbox)
 library(mosaicData) 
 library(ggplot2)
 library(ggsci)
-staff <- read_csv("data/instructional-staff.csv")
+```
 
+### Faculty
+
+``` r
+staff <- read_csv("data/instructional-staff.csv")
+```
+
+    ## Rows: 5 Columns: 12
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr  (1): faculty_type
+    ## dbl (11): 1975, 1989, 1993, 1995, 1999, 2001, 2003, 2005, 2007, 2009, 2011
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
 staff
 ```
 
@@ -26,13 +42,6 @@ staff
     ## 5 Graduat…   20.5   16.5   18.1   18.8   18.7   19     20     19.9   19.5   19.4
     ## # … with 1 more variable: `2011` <dbl>, and abbreviated variable name
     ## #   ¹​faculty_type
-
-### Faculty
-
-If there are 5 faculty types and 11 years of data, how many rows would
-we have? 55 rows
-
-What changes would you propose making to this plot to tell this story?
 
 ``` r
 staff_long <- staff %>%
@@ -68,6 +77,13 @@ staff_long %>%
 
 ![](lab-06_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
+If there are 5 faculty types and 11 years of data, how many rows would
+we have? 55 rows
+
+What changes would you propose making to this plot to tell this story?
+
+I’ll probably do a facet wrap, full-time vs. part-time vs. grad students
+
 ### Fisheries
 
 ``` r
@@ -83,21 +99,16 @@ fisheries <- read_csv("data/fisheries.csv")
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
+``` r
+#library(rayshader)
+
+#??rayshader
+```
+
+the goal is to show capture, aquaculture, and total fisheries by
+country. the problem is there are 216 countries. I want to split
+
 ### Smokers in Whickham
-
-What type of study do you think these data come from: observational or
-experiment? Why? observational, we can’t manipulate whether people to be
-smokers or not
-
-How many observations are in this dataset? What does each observation
-represent? 1314 obeservations, each observation is a person
-
-How many variables are in this dataset? What type of variable is each?
-Display each variable using an appropriate visualization. 3 variables,
-outcome (dichotomous), smoker (dichotomous), and age (continuous)
-
-What would you expect the relationship between smoking status and health
-outcome to be? Positive correlation, smokers die early
 
 ``` r
 data(Whickham)
@@ -154,15 +165,26 @@ sm <- Whickham1 %>%
 ggplot(sm, mapping = aes(y = n, x = outcome, fill = smoker))  + facet_wrap(~ age_cat) + geom_col(position = "dodge") + theme(panel.background = element_rect(fill = "white", colour = "grey50")) + scale_fill_jama() + ggtitle("Non-Smoker vs. Smoker Outcome Comparison by Age Groups") + theme(strip.background = element_rect(fill="white"), strip.text = element_text(size = 10, face = "bold"))
 ```
 
-![](lab-06_files/figure-gfm/unnamed-chunk-3-3.png)<!-- --> It looks like
-smokers are more likely to die in 18-44 & 45-64 age groups, but not the
-case for the 65+ age group. For 65+ people, nonsmokers died a lot more
-than smokers, which explains why we saw nonsmokers have a higher death
-rate than smokers in the previous graph. Because this is not an
-experiment, many reasons can cause 65+ nonsmokers to die e.g., aging,
-comorbidities. This also speaks to the importance of analyzing data by
-groups.
+![](lab-06_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
 
-…
+What type of study do you think these data come from: observational or
+experiment? Why? observational, we can’t manipulate whether people to be
+smokers or not
 
-Add exercise headings as needed.
+How many observations are in this dataset? What does each observation
+represent? 1314 obeservations, each observation is a person
+
+How many variables are in this dataset? What type of variable is each?
+Display each variable using an appropriate visualization. 3 variables,
+outcome (dichotomous), smoker (dichotomous), and age (continuous)
+
+What would you expect the relationship between smoking status and health
+outcome to be? Positive correlation, smokers die early
+
+It looks like smokers are more likely to die in 18-44 & 45-64 age
+groups, but not the case for the 65+ age group. For 65+ people,
+nonsmokers died a lot more than smokers, which explains why we saw
+nonsmokers have a higher death rate than smokers in the previous graph.
+Because this is not an experiment, many reasons can cause 65+ nonsmokers
+to die e.g., aging, comorbidities. This also speaks to the importance of
+analyzing data by groups.

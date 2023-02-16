@@ -6,29 +6,22 @@ output: github_document
 ---
 
 ### Load packages and data
-
 ```{r load-packages, message = FALSE}
 library(tidyverse) 
 library(dsbox)
 library(mosaicData) 
 library(ggplot2)
 library(ggsci)
-staff <- read_csv("data/instructional-staff.csv")
 
-staff
 
 ```
 
 ### Faculty
-
-If there are 5 faculty types and 11 years of data, how many rows would we have?
-55 rows
-
-What changes would you propose making to this plot to tell this story?
-
-
-
 ```{r}
+
+staff <- read_csv("data/instructional-staff.csv")
+
+staff
 
 staff_long <- staff %>%
   pivot_longer(cols = -faculty_type, names_to = "year") %>%
@@ -47,30 +40,26 @@ staff_long %>%
 ```
 
 
-### Fisheries
+If there are 5 faculty types and 11 years of data, how many rows would we have?
+55 rows
 
+What changes would you propose making to this plot to tell this story?
+
+I'll probably do a facet wrap, full-time vs. part-time vs. grad students
+
+
+### Fisheries
 ```{r}
 fisheries <- read_csv("data/fisheries.csv")
 
+#library(rayshader)
+
+#??rayshader
 
 ```
-
+the goal is to show capture, aquaculture, and total fisheries by country. the problem is there are 216 countries. I want to split 
 
 ### Smokers in Whickham
-
-What type of study do you think these data come from: observational or experiment? Why?
-observational, we can't manipulate whether people to be smokers or not
-
-How many observations are in this dataset? What does each observation represent?
-1314 obeservations, each observation is a person
-
-How many variables are in this dataset? What type of variable is each? Display each variable using an appropriate visualization.
-3 variables, outcome (dichotomous), smoker (dichotomous), and age (continuous)
-
-What would you expect the relationship between smoking status and health outcome to be?
-Positive correlation, smokers die early
-
-
 ```{r}
 data(Whickham)
 
@@ -110,9 +99,19 @@ sm <- Whickham1 %>%
 ggplot(sm, mapping = aes(y = n, x = outcome, fill = smoker))  + facet_wrap(~ age_cat) + geom_col(position = "dodge") + theme(panel.background = element_rect(fill = "white", colour = "grey50")) + scale_fill_jama() + ggtitle("Non-Smoker vs. Smoker Outcome Comparison by Age Groups") + theme(strip.background = element_rect(fill="white"), strip.text = element_text(size = 10, face = "bold"))
 
 ```
+
+What type of study do you think these data come from: observational or experiment? Why?
+observational, we can't manipulate whether people to be smokers or not
+
+How many observations are in this dataset? What does each observation represent?
+1314 obeservations, each observation is a person
+
+How many variables are in this dataset? What type of variable is each? Display each variable using an appropriate visualization.
+3 variables, outcome (dichotomous), smoker (dichotomous), and age (continuous)
+
+What would you expect the relationship between smoking status and health outcome to be?
+Positive correlation, smokers die early
+
 It looks like smokers are more likely to die in 18-44 & 45-64 age groups, but not the case for the 65+ age group. For 65+ people, nonsmokers died a lot more than smokers, which explains why we saw nonsmokers have a higher death rate than smokers in the previous graph. Because this is not an experiment, many reasons can cause 65+ nonsmokers to die e.g., aging, comorbidities. 
 This also speaks to the importance of analyzing data by groups. 
 
-...
-
-Add exercise headings as needed.
