@@ -2,7 +2,11 @@
 title: "Lab 06 - Ugly charts and Simpson's paradox"
 author: "Colin Li"
 date: "2/14/2023"
-output: github_document
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    number_sections: yes
 ---
 
 ### Load packages and data
@@ -12,7 +16,9 @@ library(dsbox)
 library(mosaicData) 
 library(ggplot2)
 library(ggsci)
-
+library(maps)
+library(rayshader)
+library(plotly)
 
 ```
 
@@ -52,11 +58,28 @@ I'll probably do a facet wrap, full-time vs. part-time vs. grad students
 ```{r}
 fisheries <- read_csv("data/fisheries.csv")
 
-#library(rayshader)
+#maps::map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80))
 
-#??rayshader
+#world <- maps::map(world)
+
+world_map<- map_data("world")
+world_map_df<- fortify(world_map)
+
+world_map_df$country <- world_map_df$region
+
+merged_data <- merge(fisheries, world_map_df, by = "country")
+
+
+flaw<-ggplot(merged_data, aes(x= long, y = lat)) + geom_polygon(aes(group = group, fill = capture)) + scale_fill_gradient(low = "#4DBBD5FF", high = "#E64B35FF") + theme_void()
+
+
+#plot_gg(flaw, multicore = TRUE, width = 7, height = 5, zoom = 0.75, phi = 30, theta = 45, backgroud = "white", shadow_intensity = -1)
+
+ggplotly(flaw)
 
 ```
+
+
 the goal is to show capture, aquaculture, and total fisheries by country. the problem is there are 216 countries. I want to split 
 
 ### Smokers in Whickham
