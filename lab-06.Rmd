@@ -70,17 +70,26 @@ world_map_df$country <- world_map_df$region
 merged_data <- merge(fisheries, world_map_df, by = "country")
 
 
-flaw<-ggplot(merged_data, aes(x= long, y = lat)) + geom_polygon(aes(group = group, fill = capture)) + scale_fill_gradient(low = "#4DBBD5FF", high = "#E64B35FF") + theme_void()
+cap<-ggplot(merged_data, aes(x= long, y = lat)) + geom_polygon(aes(group = group, fill = capture)) + scale_fill_gradient(low = "#4DBBD5FF", high = "#E64B35FF") + theme_void()
 
 
 #plot_gg(flaw, multicore = TRUE, width = 7, height = 5, zoom = 0.75, phi = 30, theta = 45, backgroud = "white", shadow_intensity = -1)
 
-ggplotly(flaw)
+ggplotly(cap)
+
+aq<-ggplot(merged_data, aes(x= long, y = lat)) + geom_polygon(aes(group = group, fill = aquaculture)) + scale_fill_gradient(low = "#4DBBD5FF", high = "#E64B35FF") + theme_void()
+
+ggplotly(aq)
+
+to<-ggplot(merged_data, aes(x= long, y = lat)) + geom_polygon(aes(group = group, fill = total)) + scale_fill_gradient(low = "#4DBBD5FF", high = "#E64B35FF") + theme_void()
+
+ggplotly(to)
+
 
 ```
 
 
-the goal is to show capture, aquaculture, and total fisheries by country. the problem is there are 216 countries. I want to split 
+the goal is to show capture, aquaculture, and total fisheries by country. the problem is there are 216 countries. What I wanted to do is to draw a world map and use different colors to represent the value. The interactive graphs are slightly more useful. I spent hours on this and did the best I could. 
 
 ### Smokers in Whickham
 ```{r}
@@ -137,4 +146,3 @@ Positive correlation, smokers die early
 
 It looks like smokers are more likely to die in 18-44 & 45-64 age groups, but not the case for the 65+ age group. For 65+ people, nonsmokers died a lot more than smokers, which explains why we saw nonsmokers have a higher death rate than smokers in the previous graph. Because this is not an experiment, many reasons can cause 65+ nonsmokers to die e.g., aging, comorbidities. 
 This also speaks to the importance of analyzing data by groups. 
-
